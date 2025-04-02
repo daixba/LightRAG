@@ -7,6 +7,7 @@ STORAGE_IMPLEMENTATIONS = {
             "TiDBKVStorage",
             "PGKVStorage",
             "OracleKVStorage",
+            "DynamoDBKVStorage",
         ],
         "required_methods": ["get_by_id", "upsert"],
     },
@@ -34,6 +35,7 @@ STORAGE_IMPLEMENTATIONS = {
             "QdrantVectorDBStorage",
             "OracleVectorDBStorage",
             "MongoVectorDBStorage",
+            "OpenSearchVectorDBStorage",
         ],
         "required_methods": ["query", "upsert"],
     },
@@ -43,6 +45,7 @@ STORAGE_IMPLEMENTATIONS = {
             "PGDocStatusStorage",
             "PGDocStatusStorage",
             "MongoDocStatusStorage",
+            "DynamoDBDocStatusStorage",
         ],
         "required_methods": ["get_docs_by_status"],
     },
@@ -62,6 +65,7 @@ STORAGE_ENV_REQUIREMENTS: dict[str, list[str]] = {
         "ORACLE_PASSWORD",
         "ORACLE_CONFIG_DIR",
     ],
+    "DynamoDBKVStorage": ["AWS_REGION", "DYNAMO_KV_TABLE_NAME"],
     # Graph Storage Implementations
     "NetworkXStorage": [],
     "Neo4JStorage": ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"],
@@ -99,10 +103,12 @@ STORAGE_ENV_REQUIREMENTS: dict[str, list[str]] = {
         "ORACLE_CONFIG_DIR",
     ],
     "MongoVectorDBStorage": [],
+    "OpenSearchVectorDBStorage": ["AWS_REGION", "OPENSEARCH_ENDPOINT"],
     # Document Status Storage Implementations
     "JsonDocStatusStorage": [],
     "PGDocStatusStorage": ["POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DATABASE"],
     "MongoDocStatusStorage": [],
+    "DynamoDBDocStatusStorage": ["AWS_REGION", "DYNAMO_DOCSTATUS_TABLE_NAME"],
 }
 
 # Storage implementation module mapping
@@ -133,6 +139,9 @@ STORAGES = {
     "PGDocStatusStorage": ".kg.postgres_impl",
     "FaissVectorDBStorage": ".kg.faiss_impl",
     "QdrantVectorDBStorage": ".kg.qdrant_impl",
+    "DynamoDBKVStorage": ".kg.dynamodb_impl",
+    "DynamoDBDocStatusStorage": ".kg.dynamodb_impl",
+    "OpenSearchVectorDBStorage": ".kg.opensearch_impl",
 }
 
 

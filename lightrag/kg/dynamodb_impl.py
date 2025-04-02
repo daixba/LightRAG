@@ -101,8 +101,13 @@ class DynamoDBKVStorage(BaseKVStorage):
     async def get_by_mode_and_id(self, mode: str, id: str) -> Union[dict, None]:
         # For Response Cache
         if is_namespace(self.namespace, NameSpace.KV_STORE_LLM_RESPONSE_CACHE):
+            res = {}
             _id = f"{mode}_{id}"
-            return await self.get_by_id(_id)
+            v = await self.get_by_id(_id)
+            if v:
+                res[id] = v
+                return res
+            return
         else:
             return None
 
